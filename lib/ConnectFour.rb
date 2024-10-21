@@ -20,7 +20,7 @@ class ConnectFour
   end
 
   private
-  def check_row9(row)
+  def check_row(row)
 
   end
 end
