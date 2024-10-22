@@ -25,15 +25,19 @@ class ConnectFour
 
 
   def make_move(col)
-    y = 3
-    x = col
-    while not @board[x][y].nil?
-      y -=1
+    row = 3
+    col = col[0].to_i
+    if not valid_move?(col)
+      return false
     end
-    if y == -1
-      return nil
+
+    while not @board[row][col].nil?
+      row -=1
+    end
+    if row == -1
+      return false
     else
-      @board[x][y] = @current_player
+      @board[row][col] = @current_player
       @current_player == "\u26ab".encode('utf-8') ? @current_player = "\u26aa".encode('utf-8') : @current_player = "\u26ab".encode('utf-8')
     end
   end
@@ -87,10 +91,10 @@ class ConnectFour
   def to_s
     outstr =
     "       0  1  2  3 |\n
-    0 | #{@board[0][0]} | #{@board[0][1]} | #{@board[0][2]} #{@board[0][3]}| \n
-    1 | #{@board[1][0]} | #{@board[1][1]} | #{@board[1][2]} #{@board[1][3]}|\n
-    2 | #{@board[2][0]} | #{@board[2][1]} | #{@board[2][2]} #{@board[2][3]}|\n
-    4 | #{@board[3][0]} | #{@board[3][1]} | #{@board[3][2]} #{@board[3][3]}|\n
+    0 | #{@board[0][0]} | #{@board[0][1]} | #{@board[0][2]} | #{@board[0][3]} | \n
+    1 | #{@board[1][0]} | #{@board[1][1]} | #{@board[1][2]} | #{@board[1][3]} |\n
+    2 | #{@board[2][0]} | #{@board[2][1]} | #{@board[2][2]} | #{@board[2][3]} |\n
+    4 | #{@board[3][0]} | #{@board[3][1]} | #{@board[3][2]} | #{@board[3][3]} |\n
     
     Current Player: #{@current_player}"
 
@@ -117,5 +121,12 @@ class ConnectFour
       return "w"
     end
     return nil
+  end
+
+  def valid_move?(move)
+    if move < 0 or move > 3
+      return false
+    end
+    return true
   end
 end
