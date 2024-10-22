@@ -2,6 +2,8 @@
 
 require_relative "../lib/ConnectFour"
 
+require 'pry-byebug'
+
 describe ConnectFour do
   black = "\u26ab".encode('utf-8')
   white = "\u26aa".encode('utf-8')
@@ -35,44 +37,52 @@ describe ConnectFour do
     end
   end
 
-  # describe "make_move" do
-  #   it "places piece at bottom of column" do
-      
-  #     expect(true).to eq(true)
-  #   end
+  describe "make_move" do
+    b1 = ConnectFour.new()
 
-  #   it "properly stacks pieces" do
-      
-  #     expect(true).to eq(true)
-  #   end
-  # end
 
-  # describe "check_win" do
-  #   it "registers horizontal win" do
-      
-  #     expect(true).to eq(true)
-  #   end
+    it "places piece at bottom of column" do
+      b1.make_move(0)
+      expect(b1.board[0][3]).to eq(white)
+    end
 
-  #   it "registers vertical win" do
-      
-  #     expect(true).to eq(true)
-  #   end
+    it "properly stacks pieces" do
+      b1.make_move(0)
+      b1.make_move(0)
+      expect(b1.board[0][1]).to eq(white)
+    end
 
-  #   it "registers diagonal win" do
-      
-  #     expect(true).to eq(true)
-  #   end
+    it "swaps player after move" do
 
-  #   it "registers no win" do
-      
-  #     expect(true).to eq(true)
-  #   end
-  # end
+      expect(b1.current_player).to eq(black)
+    end
+  end
 
-  # describe "to_s" do
-  #   it "Prints board content correctly" do
+  describe "check_win" do
+    vwin = ConnectFour.new(:board => [[nil, nil, nil, "⚪"], [nil, nil, nil, "⚪"], [nil, nil, nil, "⚪"], [nil, nil, nil, "⚪"]])
+    hwin = ConnectFour.new(:board => [["⚪", "⚪", "⚪", "⚪"], [nil, nil, nil, nil], [nil, nil, nil, nil], [nil, nil, nil, nil]])
+    dwin = ConnectFour.new(:board => [["⚪", nil, nil, nil], [nil, "⚪", nil, nil], [nil, nil, "⚪", nil], [nil, nil, nil, "⚪"]])
+    no_win = ConnectFour.new(:board => [[nil, nil, nil, "⚪"], [nil, nil, nil, nil], [nil, nil, nil, nil], [nil, nil, nil, nil]])
+
+    it "registers horizontal win" do
       
-  #     expect(true).to eq(true)
-  #   end
-  # end
+      expect(hwin.check_win).to eq("w")
+    end
+
+    it "registers vertical win" do
+      
+      expect(vwin.check_win).to eq("w")
+    end
+
+    it "registers diagonal win" do
+      
+      expect(dwin.check_win).to eq("w")
+    end
+
+    it "registers no win" do
+      
+      expect(no_win.check_win).to eq(nil)
+    end
+  end
+
 end
